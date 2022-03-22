@@ -16,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/cg10036/melon2spotify/issues"
   },
-  "homepage": "https://github.com/cg10036/melon2spotify#readme"
+  "homepage": "https://github.com/cg10036/melon2spotify#readme",
+  "dependencies": {
+    "fetch-cookie": "^2.0.3",
+    "jsdom": "^19.0.0",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^16.2.14",
+    "@types/node-fetch": "^2.6.1"
+  }
 }
