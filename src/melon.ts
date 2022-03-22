@@ -8,15 +8,6 @@ const ListSongURL =
 const ListPagingSongURL =
   "https://www.melon.com/mymusic/playlist/mymusicplaylistview_listPagingSong.htm";
 
-const isValidURL = (url: string) => {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 const parseInfo = (html: string) => {
   const { document } = new JSDOM(html).window;
   let length = document
