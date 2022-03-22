@@ -8,7 +8,7 @@ const ListSongURL =
 const ListPagingSongURL =
   "https://www.melon.com/mymusic/playlist/mymusicplaylistview_listPagingSong.htm";
 
-const parseInfo = (html: string) => {
+const parseSongs = (html: string) => {
   const { document } = new JSDOM(html).window;
   let length = document
     .querySelector(".cnt")
@@ -25,15 +25,26 @@ const parseInfo = (html: string) => {
     }
   }
 
-  return {
-    length: length ? Number.parseInt(length) : -1,
-    list,
-  };
+  if (length) {
+    return { length: Number.parseInt(length), list };
+  }
+  return { list };
+};
+
+const parseInfo = (html: string) => {
+  const { document } = new JSDOM(html).window;
+  let title = document.querySelector(".tit-g")?.textContent;
+  return { title };
 };
 
 export const getPlaylist = async (url: string) => {
   const fetch = fetchCookie(nodeFetch, new fetchCookie.toughCookie.CookieJar());
   let resp = await fetch(url);
+  let text = await resp.text();
+
+  let { title } = parseInfo(text);
+  if (!title) throw Error("Playlist title is null");
+
   let parsedUrl = new URL(resp.url);
   url = parsedUrl.toString();
   let playlistSeq = parsedUrl.searchParams.get("plylstSeq");
@@ -42,8 +53,10 @@ export const getPlaylist = async (url: string) => {
   }
 
   resp = await fetch(`${ListSongURL}?plylstSeq=${playlistSeq}`);
-  let text = await resp.text();
-  let { length, list } = parseInfo(text);
+  text = await resp.text();
+  let { length, list } = parseSongs(text);
+
+  if (!length) throw Error("Playlist length is null");
 
   length = Math.ceil(length / 50);
   for (let i = 1; i < length; i++) {
@@ -58,11 +71,10 @@ export const getPlaylist = async (url: string) => {
       }
     );
     text = await resp.text();
-    list.push(...parseInfo(text).list);
+    list.push(...parseSongs(text).list);
   }
 
-  console.log(JSON.stringify(list));
-  return list;
+  return { title, list };
 };
 
-// getPlaylist("http://kko.to/ssQ9tzZWJ");
+// getPlaylist("http://kko.to/ssQ9tzZWJ").then(console.log);
