@@ -1,0 +1,20 @@
+{
+  "name": "melon2spotify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cg10036/melon2spotify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cg10036/melon2spotify/issues"
+  },
+  "homepage": "https://github.com/cg10036/melon2spotify#readme"
+}
