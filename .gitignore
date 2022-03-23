@@ -68,3 +68,6 @@ deno-test.ts
 
 # vim swp file
 *.swp
+
+# config file
+src/config.ts
